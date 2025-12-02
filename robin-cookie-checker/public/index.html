@@ -6,6 +6,7 @@
     <title>Robin Cookie Checker - Dashboard</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔐</text></svg>">
 </head>
 <body>
     <div class="container">
@@ -15,16 +16,21 @@
                 <div class="logo">
                     <i class="fas fa-shield-alt"></i>
                     <h1>Robin Cookie Checker</h1>
+                    <p class="tagline">Dashboard Control Panel</p>
                 </div>
                 
                 <div class="login-form">
                     <div class="form-group">
-                        <label for="password"><i class="fas fa-lock"></i> Password Akses</label>
-                        <input type="password" id="password" placeholder="Masukkan password dashboard">
+                        <label for="password">
+                            <i class="fas fa-key"></i> Password Dashboard
+                        </label>
+                        <input type="password" id="password" placeholder="Masukkan password" value="admin123">
                     </div>
                     
                     <div class="form-group">
-                        <label for="webhook"><i class="fas fa-bell"></i> Discord Webhook URL (Opsional)</label>
+                        <label for="webhook">
+                            <i class="fab fa-discord"></i> Discord Webhook (Opsional)
+                        </label>
                         <input type="text" id="webhook" placeholder="https://discord.com/api/webhooks/...">
                     </div>
                     
@@ -34,13 +40,13 @@
                     
                     <div class="note">
                         <i class="fas fa-info-circle"></i>
-                        <p>Dashboard untuk kontrol checker cookie Roblox dari web</p>
+                        <p>Dashboard untuk kontrol checker cookie Roblox dari web browser</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Main Dashboard (Hidden until login) -->
+        <!-- Main Dashboard -->
         <div id="dashboardSection" class="dashboard-container" style="display: none;">
             <!-- Header -->
             <header class="dashboard-header">
@@ -49,8 +55,12 @@
                     <p class="subtitle">Live Dashboard & Control Panel</p>
                 </div>
                 <div class="header-right">
+                    <div class="status-indicator">
+                        <div class="status-dot" id="statusDot"></div>
+                        <span id="statusText">IDLE</span>
+                    </div>
                     <div class="user-info">
-                        <i class="fas fa-user"></i>
+                        <i class="fas fa-user-shield"></i>
                         <span>Admin</span>
                     </div>
                     <button id="logoutBtn" class="btn-logout">
@@ -62,7 +72,7 @@
             <!-- Live Stats -->
             <div class="stats-container">
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: #2ecc71;">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #2ecc71, #27ae60);">
                         <i class="fas fa-check-circle"></i>
                     </div>
                     <div class="stat-info">
@@ -72,7 +82,7 @@
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: #e74c3c;">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #e74c3c, #c0392b);">
                         <i class="fas fa-times-circle"></i>
                     </div>
                     <div class="stat-info">
@@ -82,7 +92,7 @@
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: #f39c12;">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f39c12, #d35400);">
                         <i class="fas fa-coins"></i>
                     </div>
                     <div class="stat-info">
@@ -92,7 +102,7 @@
                 </div>
                 
                 <div class="stat-card">
-                    <div class="stat-icon" style="background: #9b59b6;">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #9b59b6, #8e44ad);">
                         <i class="fas fa-crown"></i>
                     </div>
                     <div class="stat-info">
@@ -106,30 +116,36 @@
             <div class="control-panel">
                 <div class="panel-header">
                     <h2><i class="fas fa-gamepad"></i> Control Panel</h2>
-                    <div class="status-badge" id="statusBadge">
-                        <i class="fas fa-pause-circle"></i>
-                        <span>IDLE</span>
+                    <div class="api-status">
+                        <i class="fas fa-wifi" id="apiStatusIcon"></i>
+                        <span id="apiStatusText">API Connected</span>
                     </div>
                 </div>
                 
                 <div class="panel-body">
                     <!-- Cookie Input -->
                     <div class="input-section">
-                        <label for="cookiesInput">
-                            <i class="fas fa-cookie"></i> Cookies (satu per baris)
-                        </label>
+                        <div class="input-header">
+                            <label for="cookiesInput">
+                                <i class="fas fa-cookie"></i> Roblox Cookies (satu per baris)
+                            </label>
+                            <button id="sampleBtn" class="btn-sample">
+                                <i class="fas fa-vial"></i> Sample Cookie
+                            </button>
+                        </div>
                         <textarea id="cookiesInput" rows="8" placeholder="Paste cookies di sini, satu per baris:
-_|WARNING:-DO-NOT-SHARE-THIS...cookie1
-_|WARNING:-DO-NOT-SHARE-THIS...cookie2
-_|WARNING:-DO-NOT-SHARE-THIS...cookie3"></textarea>
+_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_cookie1
+_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_cookie2
+_|WARNING:-DO-NOT-SHARE-THIS.--Sharing-this-will-allow-someone-to-log-in-as-you-and-to-steal-your-ROBUX-and-items.|_cookie3"></textarea>
                         <div class="input-info">
                             <i class="fas fa-info-circle"></i>
                             <span id="cookieCount">0 cookies ditemukan</span>
+                            <span class="hint">Format: _|WARNING:-DO-NOT-SHARE-THIS...|_</span>
                         </div>
                     </div>
                     
                     <!-- Progress Bar -->
-                    <div class="progress-section" style="display: none;">
+                    <div class="progress-section" id="progressSection" style="display: none;">
                         <div class="progress-header">
                             <span>Progress Checking</span>
                             <span id="progressPercent">0%</span>
@@ -155,7 +171,7 @@ _|WARNING:-DO-NOT-SHARE-THIS...cookie3"></textarea>
                             <i class="fas fa-vial"></i> Test Single Cookie
                         </button>
                         <button id="clearBtn" class="btn-clear">
-                            <i class="fas fa-trash"></i> Clear Results
+                            <i class="fas fa-trash"></i> Clear All
                         </button>
                     </div>
                 </div>
@@ -164,10 +180,15 @@ _|WARNING:-DO-NOT-SHARE-THIS...cookie3"></textarea>
             <!-- Results Table -->
             <div class="results-container">
                 <div class="results-header">
-                    <h2><i class="fas fa-list"></i> Live Results</h2>
-                    <button id="refreshResults" class="btn-refresh">
-                        <i class="fas fa-redo"></i> Refresh
-                    </button>
+                    <h2><i class="fas fa-list-alt"></i> Live Results</h2>
+                    <div class="results-controls">
+                        <button id="exportBtn" class="btn-export">
+                            <i class="fas fa-download"></i> Export Valid
+                        </button>
+                        <button id="refreshResults" class="btn-refresh">
+                            <i class="fas fa-redo"></i> Refresh
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="table-container">
@@ -198,25 +219,30 @@ _|WARNING:-DO-NOT-SHARE-THIS...cookie3"></textarea>
             
             <!-- Footer -->
             <footer class="dashboard-footer">
-                <p>
-                    <i class="fas fa-code"></i> 
-                    Robin Cookie Checker Pro • Live Dashboard v1.0 • 
-                    <span id="currentTime">Loading...</span>
-                </p>
-                <p class="footer-note">
-                    <i class="fas fa-shield-alt"></i> 
-                    Semua proses berjalan di backend yang aman. Cookie tidak disimpan di browser.
-                </p>
+                <div class="footer-content">
+                    <p>
+                        <i class="fas fa-code"></i> 
+                        Robin Cookie Checker Pro v2.0 • Live Dashboard • 
+                        <span id="currentTime">Loading...</span>
+                    </p>
+                    <p class="footer-note">
+                        <i class="fas fa-shield-alt"></i> 
+                        Semua proses berjalan di backend yang aman. Cookies tidak disimpan di browser.
+                    </p>
+                </div>
             </footer>
         </div>
     </div>
 
-    <!-- Notification Toast -->
+    <!-- Toast Notification -->
     <div id="toast" class="toast">
         <div class="toast-content">
-            <i class="fas fa-info-circle"></i>
+            <i class="fas fa-info-circle" id="toastIcon"></i>
             <span id="toastMessage">Notification message</span>
         </div>
+        <button id="toastClose" class="toast-close">
+            <i class="fas fa-times"></i>
+        </button>
     </div>
 
     <script src="script.js"></script>
